@@ -30,55 +30,6 @@ namespace SFAgent.Salesforce
             public object[] errors { get; set; }
         }
 
-        // --- QUERY: pega todos os (Id, ExternalId) já existentes na SF ---
-        public async Task<Dictionary<string, string>> GetAllCondicaoPagamentoIdsByExternal(string token)
-        {
-            var soql = "SELECT Id, CA_IdExterno__c FROM CA_CondicaoPagamento__c WHERE CA_IdExterno__c != null";
-            var url = $"{ConfigUrls.ApiQueryBase}?q={Uri.EscapeDataString(soql)}";
-
-            var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            while (!string.IsNullOrEmpty(url))
-            {
-                var req = new HttpRequestMessage(HttpMethod.Get, url);
-                req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                var resp = await _http.SendAsync(req);
-                var body = await resp.Content.ReadAsStringAsync();
-                if (!resp.IsSuccessStatusCode)
-                    throw new Exception($"Erro no QUERY Condição Pagamento (HTTP {(int)resp.StatusCode}): {body}");
-
-                var jo = JObject.Parse(body);
-                foreach (var rec in (JArray)jo["records"])
-                {
-                    var id = (string)rec["Id"];
-                    var ext = (string)rec["CA_IdExterno__c"];
-                    if (!string.IsNullOrWhiteSpace(ext) && !string.IsNullOrWhiteSpace(id))
-                        map[ext] = id;
-                }
-
-                // paginação
-                var next = (string)jo["nextRecordsUrl"];
-                url = string.IsNullOrEmpty(next) ? null : (ConfigUrls.InstanceBase.TrimEnd('/') + next);
-            }
-
-            return map;
-        }
-
-        // --- DELETE por Id ---
-        public async Task<bool> DeleteCondicaoPagamentoById(string token, string salesforceId)
-        {
-            var url = $"{ConfigUrls.ApiCondicaoBase}/{salesforceId}";
-            var req = new HttpRequestMessage(HttpMethod.Delete, url);
-            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var resp = await _http.SendAsync(req);
-            if (resp.IsSuccessStatusCode) return true;
-
-            var body = await resp.Content.ReadAsStringAsync();
-            throw new Exception($"Erro ao DELETAR Condição Pagamento Id={salesforceId} (HTTP {(int)resp.StatusCode}): {body}");
-        }
-
         // --- UPSERT por ExternalId (PATCH) ---
         public async Task<UpsertResult> UpsertCondicaoPagamento(string token, string idExterno, object condicao)
         {

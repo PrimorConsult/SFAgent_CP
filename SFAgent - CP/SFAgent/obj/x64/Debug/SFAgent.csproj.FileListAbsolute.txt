@@ -8,3 +8,13 @@ C:\Users\sps02\Desktop\Desenvolvimento\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgen
 C:\Users\sps02\Desktop\Desenvolvimento\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.csproj.Up2Date
 C:\Users\sps02\Desktop\Desenvolvimento\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.exe
 C:\Users\sps02\Desktop\Desenvolvimento\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.pdb
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\bin\x64\Debug\SFAgent.exe.config
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\bin\x64\Debug\SFAgent.exe
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\bin\x64\Debug\SFAgent.pdb
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.csproj.AssemblyReference.cache
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.csproj.CoreCompileInputs.cache
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.csproj.Up2Date
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.exe
+C:\Users\sps02\Desktop\Desenvolvimento Serviços\Desenvolvimento Serviços\SFAgent - CP\SFAgent\obj\x64\Debug\SFAgent.pdb

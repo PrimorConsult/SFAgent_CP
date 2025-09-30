@@ -86,16 +86,11 @@ namespace SFAgent.Services
                 var token = await _auth.GetValidToken();
                 var sap = new SapConnector("HANADB:30015", "SBO_ACOS_TESTE", "B1ADMIN", "S4P@2Q60_tm2");
 
-                // 1) TUDO da SF (ext -> Id)
-                var sfMap = await _api.GetAllCondicaoPagamentoIdsByExternal(token);
-
                 // 2) TUDO do SAP (GroupNum como externalId)
                 var sql = @"
-                    SELECT
-                        ""GroupNum"", ""PymntGroup"", ""DataSource"", ""PaymntsNum"", ""CrdMthd"", ""UpdateDate"",
-                        ""U_CodAcoflex"", ""U_Parcelas"", ""U_SX_Sifra"", ""U_SX_Adiantamento"", ""U_AC_PrazoMedio"", ""OpenRcpt""
-                    FROM ""OCTG""
+                    CALL SP_CONDICAOPAGAMENTO_SF();
                 ";
+
                 var sapRows = sap.ExecuteQuery(sql);
 
                 int insertCount = 0;
@@ -108,22 +103,6 @@ namespace SFAgent.Services
                     var idExterno = S(r["GroupNum"]);
                     if (!string.IsNullOrWhiteSpace(idExterno))
                         sapExts.Add(idExterno);
-                }
-
-                // 3) DELETE na SF do que não existe no SAP
-                var toDelete = sfMap.Keys.Where(ext => !sapExts.Contains(ext)).ToList();
-                foreach (var ext in toDelete)
-                {
-                    try
-                    {
-                        var id = sfMap[ext];
-                        await _api.DeleteCondicaoPagamentoById(token, id);
-                        Logger.Log($"DELETE SF CondiçãoPgto OK | ExternalId={ext} | SFID={id}");
-                    }
-                    catch (Exception delEx)
-                    {
-                        Logger.Log($"DELETE SF CondiçãoPgto FALHOU | ExternalId={ext} | Erro={delEx.Message}", asError: true);
-                    }
                 }
 
                 // 4) UPSERT de tudo que veio do SAP
@@ -169,7 +148,7 @@ namespace SFAgent.Services
                     }
                 }
 
-                Logger.Log($"Sync CondiçõesPgto finalizado. | Inseridos={insertCount} | Atualizados={updateCount} | Removidos={toDelete.Count} | Erros={errorCount} | Total SAP={sapExts.Count}.");
+                Logger.Log($"Sync CondiçõesPgto finalizado. | Inseridos={insertCount} | Atualizados={updateCount} | Erros={errorCount} | Total SAP={sapExts.Count}.");
             }
             catch (Exception ex)
             {
